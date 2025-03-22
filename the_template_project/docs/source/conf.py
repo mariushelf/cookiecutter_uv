@@ -19,7 +19,7 @@ import the_template_project
 # -- Project information -----------------------------------------------------
 
 project = "the_template_project"
-copyright = "2025, AUTHOR_NAME"
+copyright = "{% now 'utc', '%Y' %}, AUTHOR_NAME"
 author = "AUTHOR_NAME"
 
 # The full version, including alpha/beta/rc tags

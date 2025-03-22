@@ -12,6 +12,10 @@
     "GPL-3.0-only",
     "GPL-3.0-or-later",
     "Not open source"
+  ],
+  "_copy_without_render": [
+    ".github",
+    "docs/source/_templates"
   ]
 }
 

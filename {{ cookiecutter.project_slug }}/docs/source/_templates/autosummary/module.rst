@@ -1,4 +1,4 @@
-{% raw %}
+
 {{ fullname | escape | underline}}
 .. automodule:: {{ fullname }}
 
@@ -60,4 +60,4 @@
    {% endblock %}
 
    .. rubric:: Documentation
-{% endraw %}
+

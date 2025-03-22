@@ -1,6 +1,6 @@
 import logging
 
-from {{cookiecutter.project_slug}}.utils import setup_logging
+from {{ cookiecutter.project_slug }}.utils import setup_logging
 
 logger = logging.getLogger(__name__)
 

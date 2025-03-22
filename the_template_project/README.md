@@ -1,14 +1,14 @@
-# PROJECT_NAME
+# {{ cookiecutter.project_name }}
 
-[![Tests](https://github.com/GITHUB_USERNAME/the_template_project/actions/workflows/cicd.yaml/badge.svg)](https://github.com/GITHUB_USERNAME/the_template_project/actions/workflows/cicd.yaml)
-[![codecov](https://codecov.io/gh/GITHUB_USERNAME/the_template_project/branch/master/graph/badge.svg)](https://codecov.io/gh/GITHUB_USERNAME/the_template_project)
-[![PyPI version](https://badge.fury.io/py/the_template_project.svg)](https://pypi.org/project/the_template_project/)
-[![Documentation Status](https://readthedocs.org/projects/the_template_project/badge/?version=latest)](https://the_template_project.readthedocs.io/en/latest/?badge=latest)
+[![Tests](https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_slug}}/actions/workflows/cicd.yaml/badge.svg)](https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/actions/workflows/cicd.yaml)
+[![codecov](https://codecov.io/gh/{{cookiecutter.github_username}}/{{cookiecutter.project_slug}}/branch/master/graph/badge.svg)](https://codecov.io/gh/{{cookiecutter.github_username}}/{{cookiecutter.project_slug}})
+[![PyPI version](https://badge.fury.io/py/{{ cookiecutter.project_slug }}.svg)](https://pypi.org/project/{{ cookiecutter.project_slug }}/)
+[![Documentation Status](https://readthedocs.org/projects/{{ cookiecutter.project_slug }}/badge/?version=latest)](https://{{ cookiecutter.project_slug }}.readthedocs.io/en/latest/?badge=latest)
 
 
-PROJECT_SHORT_DESCRIPTION
+{{ cookiecutter.project_short_description }}
 
-Original repository: [https://github.com/GITHUB_USERNAME/the_template_project](https://github.com/GITHUB_USERNAME/the_template_project)
+Original repository: [https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_slug}}](https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_slug}})
 
 TODO: This is an auto-generated README file. Make sure to adjust it to your needs,
 and remove sections that are not applicable for your software.
@@ -91,10 +91,10 @@ E.g., for version `1.2.3` the tag must be `1.2.3`.
    only create a global api token with access to all your packages. It is
    *highly* recommended to replace it with a package-specific token after
    you have published your package for the first time.
-2. In the [Github repository settings](https://github.com/GITHUB_USERNAME/the_template_project/settings/environments),
+2. In the [Github repository settings](https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/settings/environments),
    create a new environment named `production`. If you are the only
    contributor, you can leave all settings at the default.
-3. Under [Secrets -> actions](https://github.com/GITHUB_USERNAME/the_template_project/settings/secrets/actions),
+3. Under [Secrets -> actions](https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/settings/secrets/actions),
    create a new secret named `PYPI_API_TOKEN` and copy the token from PyPI
    as value.
 
@@ -110,15 +110,15 @@ E.g., for version `1.2.3` the tag must be `1.2.3`.
    git tag 1.2.3
    git push --tags
    ```
-4. In [Github actions](https://github.com/GITHUB_USERNAME/the_template_project/actions)
+4. In [Github actions](https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/actions)
    make sure that the test workflow succeeds.
-5. In the Github [release tab](https://github.com/GITHUB_USERNAME/the_template_project/releases)
+5. In the Github [release tab](https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/releases)
    click "Draft a new release". Fill in the form. When you click publish,
    the `publish-to-pypi` workflow is run.
 
    It checks that the tag matches the version number and then builds and
    publishes the package to
-   [PyPI](https://pypi.org/project/the_template_project/).
+   [PyPI](https://pypi.org/project/{{ cookiecutter.project_slug }}/).
 
 
 # Using a custom package repository
@@ -145,7 +145,11 @@ as described above for the default PyPI. The only necessary change is adding a
 - name: Publish package to TestPyPI
   uses: pypa/gh-action-pypi-publish@release/v1
   with:
-    user: __token__password: ${{ secrets.TEST_PYPI_API_TOKEN }}repository_url: https://test.pypi.org/legacy/
+    user: __token__
+    {%- raw -%}
+    password: ${{ secrets.TEST_PYPI_API_TOKEN }}
+    {%- endraw -%}
+    repository_url: https://test.pypi.org/legacy/
 ```
 
 For use with Test PyPI you need an account and an API token from [test.pypi.org](https://test.pypi.org). 
@@ -171,7 +175,7 @@ PyPI. In that case, specify the PyPI repo via `--extra-index-url`.
 
 For example:
 
-`pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ the_template_project`
+`pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ {{ cookiecutter.project_slug }}`
 
 **Beware the
 [security implications](https://medium.com/@alex.birsan/dependency-confusion-4a5d60fec610)!**
@@ -194,5 +198,5 @@ For advanced configuration and authentication, take a look at the
 
 # Contact
 
-AUTHOR_NAME
-  ([AUTHOR_EMAIL](mailto:AUTHOR_EMAIL))
+{{ cookiecutter.author_name }}
+  ([{{ cookiecutter.author_email }}](mailto:{{ cookiecutter.author_email }}))

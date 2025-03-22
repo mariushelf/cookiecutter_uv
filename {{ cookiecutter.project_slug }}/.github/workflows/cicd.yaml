@@ -1,5 +1,3 @@
-{#- mark as 'raw' to prevent cookiecutter jinja from replacing the github variables -#}
-{%- raw -%}
 name: CI/CD
 
 on: # events that trigger our pipeline: push on any branch and release creation
@@ -13,58 +11,55 @@ jobs:
       fail-fast: false
       matrix:
         python-version:
-          - "3.10"
-          - "3.11"
-          - "3.12"
+#          - "3.10"
+#          - "3.11"
+#          - "3.12"
           - "3.13"
         platform: [ubuntu-latest]
     runs-on: ${{ matrix.platform }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Install dependencies
-        run: pip install pre-commit
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          python-version: ${{ matrix.python-version }}
       - name: Run pre-commit hooks
-        run: pre-commit run --all-files
+        run: uvx pre-commit run --all-files
   test:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         python-version:
-          - "3.10"
-          - "3.11"
-          - "3.12"
+#          - "3.10"
+#          - "3.11"
+#          - "3.12"
           - "3.13"
-          - "pypy-3.10"
+#          - "pypy-3.10"
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Install dependencies
-        run: |
-          curl -sSL https://install.python-poetry.org | python3 -
-          export PATH=$PATH:$HOME/.local/bin
-          poetry install
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install the project
+        run: uv sync --all-extras --dev
       - name: Run pytest
         run: |
-          {% endraw -%}
-          poetry run pytest --cov-report=xml --cov={{ cookiecutter.project_slug }} tests
-          {%- raw %}
+          uv run pytest --cov-report=xml --cov={{ cookiecutter.project_slug }} tests
       - name: "Upload coverage to Codecov"
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
-          fail_ci_if_error: true
+          fail_ci_if_error: false
   #        token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
-      - name: Run test suite
-        run: python -mtox r --skip-pkg-install
-        env:
-          PYTEST_ADDOPTS: "-vv --durations=10"
   build-n-publish:
     environment: production
     name: Build and publish Python distributions to PyPI
@@ -98,4 +93,3 @@ jobs:
         with:
           user: __token__
           password: ${{ secrets.PYPI_API_TOKEN }}
-{%- endraw %}

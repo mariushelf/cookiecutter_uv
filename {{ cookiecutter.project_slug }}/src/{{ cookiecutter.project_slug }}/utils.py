@@ -1,6 +1,6 @@
 import logging
 
-from {{cookiecutter.project_slug}}.settings import LogSettings
+from {{ cookiecutter.project_slug }}.settings import LogSettings
 
 
 def setup_logging() -> None:

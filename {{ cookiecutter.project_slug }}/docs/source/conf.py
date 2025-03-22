@@ -23,8 +23,8 @@ copyright = "{% now 'utc', '%Y' %}, {{ cookiecutter.author_name }}"
 author = "{{ cookiecutter.author_name }}"
 
 # The full version, including alpha/beta/rc tags
-release = {{cookiecutter.project_slug}}.__version__
-version = {{cookiecutter.project_slug}}.__version__
+release = {{ cookiecutter.project_slug }}.__version__
+version = {{ cookiecutter.project_slug }}.__version__
 
 
 # -- General configuration ---------------------------------------------------

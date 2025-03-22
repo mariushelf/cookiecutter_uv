@@ -3,20 +3,25 @@ SHELL := /bin/bash
 .PHONY: docs
 
 install:
-	poetry install
+	uv sync
 
 clean: clean_docs
 	rm -rf dist
+	find . -type d -name __pycache__ | xargs rm -rf
+	rm -rf .tox
+	rm -rf *cache*
+	rm -rf .*cache*
+
 
 clean_docs:
 	cd docs && make clean
 
 test: install
-	poetry run pytest tests
+	uv run pytest tests
 
 docs:
-	cd docs && poetry run make html
+	cd docs && uv run make html
 	echo You can now browse the documentation at ./docs/build/index.html
 
 build: docs
-	poetry build
+	uv build
