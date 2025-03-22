@@ -1,0 +1,77 @@
+[project]
+#dynamic = ["version"]
+name = "the_template_project"
+version = "9.9.9"
+authors = [
+    {name = "AUTHOR_NAME", email = "AUTHOR@EMAIL"}
+]
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/GITHUB_USERNAME/the_template_project"
+repository = "https://github.com/GITHUB_USERNAME/the_template_project"
+documentation = "https://the_template_project.readthedocs.io"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: Implementation :: PyPy"
+]
+description = "PROJECT_SHORT_DESCRIPTION"
+requires-python = ">=3.10"
+dependencies = [
+    "pydantic ~= 2.8.0",
+    "pydantic-settings ~= 2.0.0"
+]
+
+[dependency-groups]
+    dev = [
+        "pytest ~= 8.0.0",
+        "pytest-cov ~= 6.0.0",
+        "tox ~= 4.24.0",
+        "pre-commit ~= 4.0.0",
+        "myst-parser ~= 4.0.0",
+        "Sphinx ~= 8.0.0",
+        "sphinx-autobuild ~= 2024.10.3",
+        "sphinx-rtd-theme ~= 3.0.0",
+        "sphinxcontrib-mermaid ~= 1.0.0",
+]
+
+[tool.ruff.lint]
+select = [
+    "ANN",  # flake8-annotations
+    "E",  # flake8
+    "F",  # flake8
+    "I",  # isort
+    "D",  # pydocstyle
+    "S",  # flake8-bandit
+    "NPY",  # numpy-specific rules
+    "RUF",  # ruff specific rules
+]
+ignore = [
+    "E501",
+    "E712",
+
+    "ANN202",  # Missing return type annotation for private function
+    "ANN204",  # Missing return type annotation for special function
+    "ANN401",  # Dynamically typed expressions (typing.Any) are disallowed
+
+    # pydocstyle
+    "D100",  # Missing docstring in public module
+    "D104",  # Missing docstring in public package
+    "D106",  # Missing docstring in public nested class
+]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
+"tests/**" = ["S", "ANN"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+ignore-decorators = ["typing.override"]
+
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

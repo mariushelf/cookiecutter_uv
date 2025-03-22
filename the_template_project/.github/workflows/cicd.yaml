@@ -1,0 +1,95 @@
+name: CI/CD
+
+on: # events that trigger our pipeline: push on any branch and release creation
+  push:
+  release:
+    types: [published]
+
+jobs:
+  lint:
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version:
+#          - "3.10"
+#          - "3.11"
+#          - "3.12"
+          - "3.13"
+        platform: [ubuntu-latest]
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Run pre-commit hooks
+        run: uvx pre-commit run --all-files
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version:
+#          - "3.10"
+#          - "3.11"
+#          - "3.12"
+          - "3.13"
+#          - "pypy-3.10"
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install the project
+        run: uv sync --all-extras --dev
+      - name: Run pytest
+        run: |
+          uv run pytest --cov-report=xml --cov=the_template_project tests
+      - name: "Upload coverage to Codecov"
+        uses: codecov/codecov-action@v4
+        with:
+          fail_ci_if_error: false
+  #        token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+  build-n-publish:
+    environment: production
+    name: Build and publish Python distributions to PyPI
+    needs:
+      - test
+      - lint
+    if: github.event_name == 'release' && github.event.action == 'published'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.13"
+      - name: Install poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          export PATH=$PATH:$HOME/.local/bin
+      - name: Check tag and version match
+        run: |
+          if [ "`poetry version -s`" != "${{ github.ref_name }}" ]; then
+            echo Tag ${{ github.ref_name }} does not match package version `poetry version -s`.
+            exit 1
+          else
+            echo Package version and tag match.
+          fi
+      - name: Build package
+        run: poetry build
+      - name: Publish package to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          user: __token__
+          password: ${{ secrets.PYPI_API_TOKEN }}
