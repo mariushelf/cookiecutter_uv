@@ -48,8 +48,13 @@ make test
 echo "✅ The tests pass."
 
 # check the github workflow locally
-make test-github-actions
-echo "✅ Github workflow succeeds (linting, tests, docs)."
+
+if command -v act > /dev/null 2>&1; then
+  make test-github-actions
+  echo "✅ Github workflow succeeds (linting, tests, docs)."
+else
+  echo "⚠️ 'act' command not found. Skipping GitHub workflow tests."
+fi
 
 
 cd "${CURRENT_DIR}"
