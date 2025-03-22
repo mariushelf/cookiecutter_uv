@@ -1,5 +1,5 @@
 # Cookiecutter Python
-[![Tests](https://github.com/mariushelf/cookiecutter_python/actions/workflows/cicd.yaml/badge.svg)](https://github.com/mariushelf/cookiecutter_python/actions/workflows/cicd.yaml)
+[![Tests](https://github.com/mariushelf/cookiecutter_uv/actions/workflows/cicd.yaml/badge.svg)](https://github.com/mariushelf/cookiecutter_uv/actions/workflows/cicd.yaml)
 
 
 A simple [cookiecutter](https://github.com/cookiecutter/cookiecutter)

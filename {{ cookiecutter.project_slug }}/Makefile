@@ -17,7 +17,9 @@ clean: clean_docs
 clean_docs:
 	cd docs && make clean
 
-test: install
+test: test-unit-tests test-github-actions
+
+test-unit-tests:
 	uv run pytest tests
 
 test-github-actions:
