@@ -71,6 +71,8 @@ ignore = [
 convention = "numpy"
 ignore-decorators = ["typing.override"]
 
+[tool.pytest.ini_options]
+addopts = "--cov=PROJECT_NAME --cov-report xml"
 
 [build-system]
 requires = ["hatchling"]

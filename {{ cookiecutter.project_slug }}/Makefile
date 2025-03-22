@@ -11,13 +11,17 @@ clean: clean_docs
 	rm -rf .tox
 	rm -rf *cache*
 	rm -rf .*cache*
-
+	rm -rf .artifacts
+	rm -rf .venv
 
 clean_docs:
 	cd docs && make clean
 
 test: install
 	uv run pytest tests
+
+test-github-actions:
+	act --artifact-server-path .artifacts --action-offline-mode --container-architecture linux/amd64
 
 docs:
 	cd docs && uv run make html

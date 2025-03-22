@@ -1,6 +1,6 @@
 .PHONY: test
 
-test:
+test: generate-template
 	./tests/test.sh
 
 test-all:
@@ -18,12 +18,12 @@ clean-template:
 test-template-locally: test-template-git
 	cd the_template_project && uv run pre-commit install && uv run pre-commit run --all-files && make test && make docs && make build
 
-test-template-act: test-template-git
-	cd the_template_project && act --artifact-server-path /tmp/artifacts --action-offline-mode --container-architecture linux/amd64
+test-template-github-actions: test-template-git
+	cd the_template_project && act --artifact-server-path .artifacts --action-offline-mode --container-architecture linux/amd64
 
-test-template: test-template-locally test-template-act clean-template
+test-template: test-template-locally test-template-github-actions clean-template
 
-update-template: clean-template
+generate-template: clean-template
 	rm -rf "{{ cookiecutter.project_slug }}" tmp_template
 	cp -a the_template_project tmp_template
 	find tmp_template -type f | tr '\n' '\0' | xargs -0 -n1 sed -i '' 's/AUTHOR_NAME/\{\{ cookiecutter.author_name \}\}/g; s/the_template_project/\{\{ cookiecutter.project_slug \}\}/g; s/AUTHOR@EMAIL/\{\{ cookiecutter.author_email \}\}/g; s/AUTHOR_EMAIL/\{\{ cookiecutter.author_email \}\}/g; s/PROJECT_NAME/\{\{cookiecutter.project_slug\}\}/g; s/GITHUB_USERNAME/\{\{ cookiecutter.github_username \}\}/g; s/PROJECT_SHORT_DESCRIPTION/\{\{ cookiecutter.project_short_description \}\}/g'

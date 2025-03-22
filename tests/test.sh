@@ -13,7 +13,7 @@ PROJECT_DIR="test_project${TOX_ENV_NAME}"
 
 rm -rf $PROJECT_DIR
 
-cookiecutter --no-input --default-config \
+uvx cookiecutter --no-input --default-config \
   -o $PROJECT_DIR \
    . \
   author_name="Joe Doe" \
@@ -28,6 +28,10 @@ echo "✅ Cookiecutter executes successfully."
 cd $PROJECT_DIR/my_project
 
 git add .
+git config --local user.name "Joe Doe"
+git config --local user.email "joe@example.com"
+git commit -m "Initial commit" --no-verify
+
 uv run pre-commit run --all-files
 echo "✅ Commit hooks installed and working."
 
@@ -43,7 +47,13 @@ echo "✅ Documentation builds."
 make test
 echo "✅ The tests pass."
 
+# check the github workflow locally
+make test-github-actions
+echo "✅ Github workflow succeeds (linting, tests, docs)."
+
+
 cd "${CURRENT_DIR}"
-#rm -rf $PROJECT_DIR
+
+rm -rf $PROJECT_DIR
 
 echo "✅ Cookiecutter project tested successfully. All good 🤩"

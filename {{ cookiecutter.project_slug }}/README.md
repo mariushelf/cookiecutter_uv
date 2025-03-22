@@ -24,7 +24,7 @@ On every commit, some code formatting and checking tools are run by
 The test pipeline is configured in the
 [.pre-commit-config.yaml](.pre-commit-config.yaml).
 
-**Note:** you *must* run `poetry run pre-commit install` everytime you clone your
+**Note:** you *must* run `uv run pre-commit install` everytime you clone your
 git repository. Else, the pre-commit hooks won't be run automatically.
 
 
@@ -163,7 +163,7 @@ in the documentation of the `pypi-publish` Github action.
 ## Installing from a custom package repository
 
 If you have uploaded your package to a custom repository, install tools such as
-pip and poetry won't find it by default. You need to configure them to use the
+pip and uv won't find it by default. You need to configure them to use the
 custom repository.
 
 
@@ -180,21 +180,6 @@ For example:
 **Beware the
 [security implications](https://medium.com/@alex.birsan/dependency-confusion-4a5d60fec610)!**
 
-
-### Installing from a custom package repository with poetry
-
-To install packages from a custom repository, add this to your `pyproject.toml`:
-
-```toml
-[[tool.poetry.source]]
-name = "foo"
-url = "https://test.pypi.org/simple/"
-secondary = true  # if True, poetry will also search the default PyPI repository
-default = true  # if True, poetry will never search the default PyPI repository
-```
-
-For advanced configuration and authentication, take a look at the
-[poetry documentation](https://python-poetry.org/docs/repositories/#install-dependencies-from-a-private-repository).
 
 # Contact
 

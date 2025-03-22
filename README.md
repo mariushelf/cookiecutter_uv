@@ -96,3 +96,35 @@ make test-all
   poetry or the `pyproject.toml`, make sure to check your poetry version
   and [update](https://python-poetry.org/blog/announcing-poetry-1.2.0/)
   it if necessary.
+
+
+# Development
+
+The template code is located in `{{cookiecutter.project_slug}}`. The files in there
+are sometimes hard to edit though:
+
+* they are jinja2 templates,
+* meaning you can't test the code or even run unit tests,
+* you can't lint them.
+
+Because of that, the template is auto-generated from the `the_template_project` folder.
+
+That folder contains valid python code. Everywhere where in the final template a
+cookiecutter variable would be used, in "the_template_project" there is a placeholder,
+such as `AUTHOR_NAME` instead of `{{cookiecutter.author_name}}`.
+
+The workflow is as follows:
+
+1. make changes to the code in `the_template_project`
+2. run `make test` to check if the template generates and works correctly
+   (`make test` also invokes `make generate-template`)
+3. run `git diff` to check the changes
+4. commit changes to both `the_template_project` and `{{cookiecutter.project_slug}}`
+
+
+## Prerequisites
+
+You need to have the following tools installed:
+
+* [uv](https://github.com/astral-sh/uv)
+* [act](https://github.com/nektos/act) (for testing github actions locally)
