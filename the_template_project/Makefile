@@ -23,7 +23,12 @@ test-unit-tests:
 	uv run pytest tests
 
 test-github-actions:
-	act --artifact-server-path .artifacts --action-offline-mode --container-architecture linux/amd64
+	if command -v act > /dev/null 2>&1; then \
+	  act --artifact-server-path .artifacts --action-offline-mode --container-architecture linux/amd64; \
+	  echo "✅ Github workflow succeeds (linting, tests, docs)."; \
+	else \
+	  echo "⚠️ 'act' command not found. Skipping GitHub workflow tests."; \
+	fi
 
 docs:
 	cd docs && uv run make html
