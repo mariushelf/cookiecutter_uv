@@ -27,14 +27,12 @@ echo "✅ Cookiecutter executes successfully."
 
 cd $PROJECT_DIR/my_project
 
-poetry install
-
 git add .
-poetry run pre-commit run --all-files
+uv run pre-commit run --all-files
 echo "✅ Commit hooks installed and working."
 
 # check that we can run the project
-poetry run python -m my_project.main
+uv run python -m my_project.main
 echo "✅ main.py script executes successfully."
 
 # check that the documentation builds without warnings
@@ -46,6 +44,6 @@ make test
 echo "✅ The tests pass."
 
 cd "${CURRENT_DIR}"
-rm -rf $PROJECT_DIR
+#rm -rf $PROJECT_DIR
 
 echo "✅ Cookiecutter project tested successfully. All good 🤩"

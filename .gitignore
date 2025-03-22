@@ -57,3 +57,4 @@ notebooks/
 test_project*
 .python-version
 .tox
+**/uv.lock
