@@ -1,7 +1,7 @@
 [project]
 #dynamic = ["version"]
 name = "{{ cookiecutter.project_slug }}"
-version = "9.9.9"
+version = "{{ cookiecutter.version }}"
 authors = [
     {name = "{{ cookiecutter.author_name }}", email = "{{ cookiecutter.author_email }}"}
 ]
