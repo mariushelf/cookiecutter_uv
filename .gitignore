@@ -28,10 +28,11 @@ MANIFEST
 .ipynb_checkpoints
 
 # Environments
-.env
-.venv
-env/
-venv/
+**/.env
+**/.env.*
+**/.venv
+**/env/
+**/venv/
 
 # mypy
 .mypy_cache/
@@ -57,4 +58,4 @@ notebooks/
 test_project*
 .python-version
 .tox
-**/uv.lock
+
